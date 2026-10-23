@@ -1,0 +1,324 @@
+---
+import Icon from "./Icon.astro";
+import SectionHeader from "./SectionHeader.astro";
+import Topology from "./Topology.astro";
+import { cases } from "../data/course";
+---
+
+<section class="section practice" id="practice">
+  <div class="container">
+    <SectionHeader
+      kicker="Практика"
+      title="Сначала ломаем, потом собираем правильно"
+      lead="В симуляции видно, что происходит с сообщением на каждом шаге: routing, requeue, TTL, dead-letter и потеря."
+      aside="Три сквозных кейса. Один из них можно принести на ревью как рабочий пример."
+    />
+
+    <div class="practice__board">
+      <div class="practice__cases">
+        {cases.map((item, index) => (
+          <article class="practice__case" data-reveal style={`transition-delay: ${index * 70}ms`}>
+            <div class="practice__case-top">
+              <span class="tag">{item.tag}</span>
+              <span class="practice__case-number mono">0{index + 1}</span>
+            </div>
+            <h3>{item.title}</h3>
+            <p>{item.text}</p>
+            <div class="practice__result">
+              <Icon name="zap" size={14} />
+              <span>{item.result}</span>
+            </div>
+          </article>
+        ))}
+      </div>
+
+      <div class="practice__visual" data-reveal>
+        <div class="practice__visual-head">
+          <div>
+            <span class="mono">live simulation</span>
+            <strong>Маршрут сообщения</strong>
+          </div>
+          <span class="practice__pulse"><i></i> running</span>
+        </div>
+        <Topology />
+        <p class="practice__scroll-hint mono">схема прокручивается <span aria-hidden="true">→</span></p>
+        <div class="practice__log" aria-label="Журнал событий симуляции">
+          <div><span class="mono">12:04:21.084</span><span>order.created</span><span class="practice__log-ok">routed → orders.email</span></div>
+          <div><span class="mono">12:04:21.116</span><span>email.sent</span><span class="practice__log-ok">ack</span></div>
+          <div><span class="mono">12:04:22.402</span><span>email.failed</span><span class="practice__log-warn">retry → DLQ</span></div>
+        </div>
+        <div class="practice__legend">
+          <span><i class="practice__legend-dot"></i> доставлено</span>
+          <span><i class="practice__legend-dot practice__legend-dot--accent"></i> dead-letter</span>
+          <span class="mono">1 сообщение = 1 журнал</span>
+        </div>
+        <a class="practice__link" href="https://gustafor.github.io/MQ-Designer.github.io/" target="_blank" rel="noopener noreferrer">
+          Открыть среду <Icon name="arrow-up-right" size={15} />
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .practice__board {
+    display: grid;
+    grid-template-columns: minmax(0, 0.92fr) minmax(0, 1.08fr);
+    gap: 16px;
+    align-items: stretch;
+  }
+
+  .practice__board > * {
+    min-width: 0;
+  }
+
+  .practice__cases {
+    display: grid;
+    gap: 12px;
+  }
+
+  .practice__case {
+    display: flex;
+    flex-direction: column;
+    min-height: 176px;
+    padding: 20px;
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    background: var(--surface);
+  }
+
+  .practice__case-top {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+  }
+
+  .practice__case-number {
+    color: var(--border-strong);
+    font-size: 11px;
+  }
+
+  .practice__case h3 {
+    margin-top: 18px;
+    font-size: 19px;
+    font-weight: 600;
+    letter-spacing: -0.02em;
+    line-height: 1.2;
+  }
+
+  .practice__case p {
+    max-width: 460px;
+    margin-top: 7px;
+    color: var(--muted);
+    font-size: 13px;
+    line-height: 1.5;
+  }
+
+  .practice__result {
+    display: flex;
+    align-items: center;
+    gap: 7px;
+    margin-top: auto;
+    padding-top: 16px;
+    color: var(--accent-ink);
+    font-family: var(--mono);
+    font-size: 10px;
+    letter-spacing: 0.02em;
+  }
+
+  .practice__visual {
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+    padding: 20px;
+    border: 1px solid var(--terminal);
+    border-radius: var(--radius);
+    background: var(--terminal);
+    color: var(--terminal-text);
+    box-shadow: 7px 7px 0 var(--border);
+  }
+
+  .practice__visual-head {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 16px;
+    margin-bottom: 18px;
+  }
+
+  .practice__visual-head div {
+    display: grid;
+    gap: 4px;
+  }
+
+  .practice__visual-head span {
+    color: var(--accent);
+    font-size: 9px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+
+  .practice__visual-head strong {
+    color: var(--terminal-text);
+    font-size: 18px;
+    font-weight: 600;
+    letter-spacing: -0.02em;
+  }
+
+  .practice__pulse {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    color: #a9d18e !important;
+    font-size: 8px !important;
+  }
+
+  .practice__pulse i {
+    width: 5px;
+    height: 5px;
+    border-radius: 1px;
+    background: #a9d18e;
+    box-shadow: 0 0 0 3px rgba(169, 209, 142, 0.12);
+  }
+
+  .practice__visual :global(.topology) {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    min-width: 0;
+  }
+
+  .practice__log {
+    display: grid;
+    gap: 1px;
+    margin-top: 14px;
+    border: 1px solid var(--terminal-border);
+    border-radius: var(--radius-sm);
+    background: var(--terminal-border);
+    overflow: hidden;
+  }
+
+  .practice__log div {
+    display: grid;
+    grid-template-columns: 86px 92px 1fr;
+    gap: 8px;
+    align-items: center;
+    min-height: 26px;
+    padding: 0 9px;
+    background: var(--terminal-2);
+    color: var(--terminal-muted);
+    font-family: var(--mono);
+    font-size: 8px;
+  }
+
+  .practice__log-ok {
+    color: #a9d18e;
+  }
+
+  .practice__log-warn {
+    color: var(--accent);
+  }
+
+  .practice__legend {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    align-items: center;
+    margin-top: 14px;
+    color: var(--terminal-muted);
+    font-size: 9px;
+  }
+
+  .practice__legend span {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+  }
+
+  .practice__legend-dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 1px;
+    background: #a9d18e;
+  }
+
+  .practice__legend-dot--accent {
+    background: var(--accent);
+  }
+
+  .practice__legend .mono {
+    margin-left: auto;
+    color: var(--terminal-muted);
+    font-size: 8px;
+  }
+
+  .practice__link {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    width: fit-content;
+    margin-top: 16px;
+    color: var(--accent);
+    font-family: var(--mono);
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+  }
+
+  .practice__link:hover {
+    color: var(--terminal-text);
+  }
+
+  .practice__scroll-hint {
+    display: none;
+    margin-top: 7px;
+    color: var(--terminal-muted);
+    font-size: 8px;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+  }
+
+  .practice__scroll-hint span {
+    color: var(--accent);
+  }
+
+  @media (max-width: 1100px) {
+    .practice__board {
+      grid-template-columns: minmax(0, 1fr);
+    }
+
+    .practice__cases {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+
+    .practice__case {
+      min-height: 230px;
+    }
+  }
+
+  @media (max-width: 767px) {
+    .practice__cases {
+      grid-template-columns: 1fr;
+    }
+
+    .practice__case {
+      min-height: 0;
+    }
+
+    .practice__visual {
+      padding: 14px;
+    }
+
+    .practice__scroll-hint {
+      display: block;
+    }
+
+    .practice__log div {
+      grid-template-columns: 1fr;
+      gap: 2px;
+      padding: 7px 8px;
+    }
+  }
+</style>

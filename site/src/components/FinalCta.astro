@@ -1,0 +1,134 @@
+---
+import Button from "./Button.astro";
+import Icon from "./Icon.astro";
+import { site } from "../data/course";
+---
+
+<section class="final-cta">
+  <div class="final-cta__pattern" aria-hidden="true"></div>
+  <div class="container final-cta__inner">
+    <div class="final-cta__copy">
+      <span class="final-cta__kicker mono">// следующий шаг</span>
+      <h2>Соберите топологию, которую не стыдно показать</h2>
+      <p>Старт {site.startDate}. {site.seats} в потоке — чтобы успеть разобрать схему каждого участника.</p>
+    </div>
+    <div class="final-cta__actions">
+      <Button href="#pricing" variant="dark" size="lg" icon>Записаться на курс</Button>
+      <a href="#lead">Сначала получить программу <Icon name="arrow-right" size={15} /></a>
+    </div>
+  </div>
+</section>
+
+<style>
+  .final-cta {
+    position: relative;
+    overflow: hidden;
+    border-top: 1px solid var(--terminal);
+    background: var(--terminal);
+    color: var(--terminal-text);
+  }
+
+  .final-cta__pattern {
+    position: absolute;
+    inset: 0;
+    background-image:
+      linear-gradient(var(--terminal-grid) 1px, transparent 1px),
+      linear-gradient(90deg, var(--terminal-grid) 1px, transparent 1px);
+    background-size: 42px 42px;
+    mask-image: linear-gradient(90deg, transparent 20%, #000 100%);
+    pointer-events: none;
+  }
+
+  .final-cta__pattern::after {
+    position: absolute;
+    top: -42%;
+    right: 5%;
+    width: 420px;
+    height: 420px;
+    border: 1px solid rgba(255, 85, 51, 0.42);
+    content: "";
+  }
+
+  .final-cta__inner {
+    position: relative;
+    z-index: 1;
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    gap: 36px;
+    align-items: center;
+    padding-top: 68px;
+    padding-bottom: 68px;
+  }
+
+  .final-cta__kicker {
+    color: var(--accent);
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+
+  .final-cta h2 {
+    max-width: 760px;
+    margin-top: 14px;
+    font-family: var(--font-display);
+    font-size: clamp(32px, 4.5vw, 56px);
+    font-weight: 700;
+    letter-spacing: -0.045em;
+    line-height: 1;
+    text-transform: uppercase;
+  }
+
+  .final-cta p {
+    max-width: 560px;
+    margin-top: 16px;
+    color: var(--terminal-muted);
+    font-size: 15px;
+    line-height: 1.45;
+  }
+
+  .final-cta__actions {
+    display: grid;
+    justify-items: start;
+    gap: 16px;
+  }
+
+  .final-cta__actions a:last-child {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    border-bottom: 1px solid rgba(246, 242, 237, 0.32);
+    color: var(--terminal-text);
+    font-family: var(--mono);
+    font-size: 10px;
+    font-weight: 500;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+  }
+
+  .final-cta__actions a:last-child :global(svg) {
+    color: var(--accent);
+  }
+
+  @media (max-width: 900px) {
+    .final-cta__inner {
+      grid-template-columns: 1fr;
+      gap: 28px;
+    }
+  }
+
+  @media (max-width: 767px) {
+    .final-cta__inner {
+      padding-top: 36px;
+      padding-bottom: 36px;
+    }
+
+    .final-cta__actions {
+      width: 100%;
+    }
+
+    .final-cta__actions :global(.btn) {
+      width: 100%;
+    }
+  }
+</style>

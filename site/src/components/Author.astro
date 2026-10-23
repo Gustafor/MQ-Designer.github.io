@@ -1,0 +1,386 @@
+---
+import Button from "./Button.astro";
+import Icon from "./Icon.astro";
+import SectionHeader from "./SectionHeader.astro";
+import { site } from "../data/course";
+---
+
+<section class="section section--deep author" id="author">
+  <div class="container author__grid">
+    <div class="author__visual" data-reveal>
+      <div class="author__frame">
+        <span class="author__frame-label mono">FIG. 04 / CREATOR</span>
+        <div class="author__portrait">
+          <span class="author__portrait-corner mono">G / 01</span>
+          <span class="author__monogram" aria-hidden="true">G</span>
+          <span class="author__portrait-orbit" aria-hidden="true"></span>
+          <span class="author__portrait-label mono">creator / open source</span>
+        </div>
+        <div class="author__caption">
+          <span class="author__caption-name">
+            <img src="/images/author.svg" alt="" width="28" height="28" loading="lazy" />
+            <strong>Gustafor</strong>
+          </span>
+          <span>Java · Spring · AMQP</span>
+        </div>
+      </div>
+      <div class="author__float">
+        <span class="author__float-icon"><Icon name="spark" size={17} /></span>
+        <span><strong>Автор среды</strong><br />RabbitMQ Designer</span>
+      </div>
+      <div class="author__github">
+        <Icon name="github" size={16} />
+        <span class="mono">open source</span>
+      </div>
+    </div>
+
+    <div class="author__copy">
+      <SectionHeader
+        kicker="Автор"
+        title="Не «эксперт по очередям», а человек, который собрал инструмент"
+        lead="Gustafor — автор RabbitMQ Designer: визуальной среды с live-симуляцией и экспортом в реальный RabbitMQ. Курс вырос из практики: сначала инструмент, потом объяснение."
+      />
+
+      <blockquote class="author__quote">
+        «Я сделал среду, в которой сам хочу проверять топологии. Курс — способ передать не только инструмент, но и способ думать о сообщениях».
+      </blockquote>
+
+      <div class="author__facts">
+        <div><span class="mono">Продукт</span><strong>RabbitMQ Designer</strong></div>
+        <div><span class="mono">Стек</span><strong>Java / Spring AMQP</strong></div>
+        <div><span class="mono">Режим</span><strong>100% offline</strong></div>
+        <div><span class="mono">Языки</span><strong>RU / EN</strong></div>
+      </div>
+
+      <div class="author__actions">
+        <Button href={site.githubUrl} variant="secondary" icon>GitHub проекта</Button>
+        <a class="author__link" href="#lead">Задать вопрос автору <Icon name="arrow-right" size={15} /></a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .author__grid {
+    display: grid;
+    grid-template-columns: minmax(0, 0.84fr) minmax(0, 1.16fr);
+    gap: clamp(36px, 6vw, 80px);
+    align-items: center;
+  }
+
+  .author__visual {
+    position: relative;
+    max-width: 440px;
+    padding: 0 0 34px;
+  }
+
+  .author__frame {
+    position: relative;
+    overflow: hidden;
+    padding: 18px;
+    border: 1px solid var(--text);
+    border-radius: var(--radius);
+    background: var(--surface);
+    box-shadow: 8px 8px 0 var(--border);
+  }
+
+  .author__frame::before {
+    position: absolute;
+    top: 16%;
+    right: -18%;
+    width: 62%;
+    aspect-ratio: 1;
+    border: 1px solid rgba(255, 85, 51, 0.34);
+    content: "";
+  }
+
+  .author__frame::after {
+    position: absolute;
+    bottom: 8%;
+    left: -14%;
+    width: 52%;
+    aspect-ratio: 1;
+    border: 1px dashed var(--border);
+    content: "";
+  }
+
+  .author__frame-label {
+    position: relative;
+    z-index: 1;
+    display: block;
+    color: var(--muted);
+    font-size: 8px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+  }
+
+  .author__portrait {
+    position: relative;
+    display: grid;
+    place-items: center;
+    width: 82%;
+    aspect-ratio: 4 / 5;
+    margin: 22px auto 20px;
+    overflow: hidden;
+    border: 1px solid var(--border);
+    border-radius: var(--radius-sm);
+    background:
+      radial-gradient(circle at 50% 44%, var(--accent-soft), transparent 52%),
+      var(--surface-2);
+  }
+
+  .author__portrait::before {
+    position: absolute;
+    inset: 0;
+    background-image:
+      linear-gradient(var(--grid-line) 1px, transparent 1px),
+      linear-gradient(90deg, var(--grid-line) 1px, transparent 1px);
+    background-size: 28px 28px;
+    content: "";
+  }
+
+  .author__portrait::after {
+    position: absolute;
+    right: -15%;
+    bottom: -11%;
+    width: 70%;
+    aspect-ratio: 1;
+    border: 1px solid rgba(255, 85, 51, 0.42);
+    content: "";
+  }
+
+  .author__portrait-corner {
+    position: absolute;
+    top: 12px;
+    left: 14px;
+    z-index: 2;
+    color: var(--accent-ink);
+    font-size: 8px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+
+  .author__monogram {
+    position: relative;
+    z-index: 2;
+    color: var(--text);
+    font-size: clamp(124px, 15vw, 178px);
+    font-weight: 800;
+    letter-spacing: -0.09em;
+    line-height: 1;
+    text-shadow: 9px 9px 0 var(--accent-soft);
+  }
+
+  .author__portrait-orbit {
+    position: absolute;
+    width: 72%;
+    aspect-ratio: 1;
+    border: 1px dashed rgba(183, 53, 28, 0.32);
+    transform: rotate(-12deg);
+  }
+
+  .author__portrait-label {
+    position: absolute;
+    right: 14px;
+    bottom: 12px;
+    z-index: 2;
+    color: var(--muted);
+    font-size: 7px;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+  }
+
+  .author__caption {
+    position: relative;
+    z-index: 1;
+    display: flex;
+    align-items: end;
+    justify-content: space-between;
+    gap: 12px;
+    padding-top: 14px;
+    border-top: 1px solid var(--border);
+  }
+
+  .author__caption-name {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .author__caption-name img {
+    width: 28px;
+    height: 28px;
+    border: 1px solid var(--border);
+    border-radius: var(--radius-sm);
+    image-rendering: pixelated;
+    object-fit: cover;
+  }
+
+  .author__caption strong {
+    font-size: 18px;
+    font-weight: 600;
+  }
+
+  .author__caption > span:last-child {
+    color: var(--muted);
+    font-family: var(--mono);
+    font-size: 9px;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+  }
+
+  .author__float {
+    position: absolute;
+    right: -22px;
+    bottom: 68px;
+    z-index: 2;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 11px 14px;
+    border: 1px solid var(--text);
+    border-radius: var(--radius-sm);
+    background: var(--surface);
+    color: var(--muted);
+    font-size: 11px;
+    line-height: 1.35;
+    box-shadow: 5px 5px 0 var(--accent-soft);
+  }
+
+  .author__float strong {
+    color: var(--text);
+    font-weight: 600;
+  }
+
+  .author__float-icon {
+    display: grid;
+    place-items: center;
+    width: 32px;
+    height: 32px;
+    border: 1px solid rgba(255, 85, 51, 0.36);
+    border-radius: var(--radius-sm);
+    color: var(--accent-ink);
+  }
+
+  .author__github {
+    position: absolute;
+    bottom: 0;
+    left: 18px;
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    color: var(--muted);
+    font-size: 8px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+
+  .author__copy :global(.section-head) {
+    margin-bottom: 26px;
+  }
+
+  .author__copy :global(.h2) {
+    max-width: 760px;
+  }
+
+  .author__quote {
+    margin: 24px 0;
+    padding: 18px 20px;
+    border-left: 2px solid var(--accent);
+    background: var(--accent-soft);
+    color: var(--text);
+    font-size: clamp(17px, 1.5vw, 20px);
+    line-height: 1.45;
+  }
+
+  .author__facts {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 1px;
+    overflow: hidden;
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    background: var(--border);
+  }
+
+  .author__facts div {
+    display: grid;
+    gap: 5px;
+    padding: 14px 16px;
+    background: var(--surface);
+  }
+
+  .author__facts span {
+    color: var(--muted);
+    font-size: 9px;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+  }
+
+  .author__facts strong {
+    font-size: 14px;
+    font-weight: 600;
+  }
+
+  .author__actions {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 20px;
+    margin-top: 26px;
+  }
+
+  .author__link {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    color: var(--accent-ink);
+    font-family: var(--mono);
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+  }
+
+  .author__link:hover {
+    color: var(--text);
+  }
+
+  .author__link :global(svg) {
+    color: var(--accent);
+  }
+
+  @media (max-width: 900px) {
+    .author__grid {
+      grid-template-columns: 1fr;
+    }
+
+    .author__visual {
+      max-width: 380px;
+      padding-bottom: 0;
+    }
+
+    .author__float {
+      position: static;
+      width: fit-content;
+      margin: 14px 0 0 auto;
+      box-shadow: 4px 4px 0 var(--accent-soft);
+    }
+
+    .author__github {
+      position: static;
+      margin-top: 12px;
+    }
+  }
+
+  @media (max-width: 767px) {
+    .author__portrait {
+      width: 70%;
+      margin: 16px auto 14px;
+    }
+
+    .author__facts {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

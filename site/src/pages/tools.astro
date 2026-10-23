@@ -1,0 +1,400 @@
+---
+import Base from "../layouts/Base.astro";
+import Header from "../components/Header.astro";
+import Footer from "../components/Footer.astro";
+import StickyCta from "../components/StickyCta.astro";
+import Badge from "../components/Badge.astro";
+import Button from "../components/Button.astro";
+import Icon from "../components/Icon.astro";
+import Topology from "../components/Topology.astro";
+import { site } from "../data/course";
+---
+
+<Base title="Среда RabbitMQ Designer" description="Визуальная среда для проектирования топологий RabbitMQ с live-симуляцией, журналом маршрутов и экспортом в Spring AMQP. Полностью офлайн.">
+  <Header />
+  <main id="main">
+    <section class="section tools-hero" id="top" data-reveal>
+      <div class="container tools-hero__grid">
+        <div class="tools-hero__copy">
+          <span class="eyebrow">Инструмент</span>
+          <h1 class="display">Соберите топологию в браузере.<br>Без установки</h1>
+          <p class="lead">RabbitMQ Designer — визуальная среда с live-симуляцией, журналом маршрутов и экспортом в реальный брокер. Полностью офлайн.</p>
+          <div class="tools-hero__meta">
+            <Badge variant="accent">100% offline</Badge>
+            <Badge variant="muted">RU / EN</Badge>
+            <Badge variant="muted">Open source</Badge>
+          </div>
+          <div class="tools-hero__actions">
+            <Button href={site.appUrl} size="lg" icon target="_blank" rel="noopener noreferrer">Открыть среду</Button>
+            <Button href={site.githubUrl} variant="secondary" size="lg" icon target="_blank" rel="noopener noreferrer">GitHub проекта</Button>
+          </div>
+        </div>
+
+        <div class="tools-hero__preview">
+          <div class="tools-hero__frame">
+            <div class="tools-hero__frame-bar">
+              <span class="tools-hero__dots"><i></i><i></i><i></i></span>
+              <span class="tools-hero__url mono">rabbitmq-designer / live simulation</span>
+              <span class="tools-hero__live"><i></i> online</span>
+            </div>
+            <div class="tools-hero__screen">
+              <img
+                src="/screenshots/designer.png"
+                alt="Интерфейс RabbitMQ Designer: топология, очереди и журнал сообщений"
+                width="1514"
+                height="1254"
+                loading="eager"
+              />
+            </div>
+            <div class="tools-hero__stamp mono">FIG. 01 / LIVE ENVIRONMENT</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section section--deep" data-reveal>
+      <div class="container">
+        <div class="tools__diagram-head">
+          <span class="eyebrow">Под капотом</span>
+          <h2 class="h2">Один маршрут — один журнал</h2>
+        </div>
+        <Topology />
+        <p class="tools__diagram-hint mono">схема прокручивается <span aria-hidden="true">→</span></p>
+      </div>
+    </section>
+
+    <section class="section" data-reveal>
+      <div class="container">
+        <div class="tools__features">
+          <article class="tools__feature">
+            <div class="tools__feature-icon"><Icon name="code" size={22} /></div>
+            <h3>Экспорт в код</h3>
+            <p>Получите definitions.json и готовый Spring AMQP-каркас: Exchange, Queue, Binding, DLX/DLQ — готово к вставке в проект.</p>
+          </article>
+          <article class="tools__feature">
+            <div class="tools__feature-icon"><Icon name="activity" size={22} /></div>
+            <h3>Live-симуляция</h3>
+            <p>Отправьте тестовое сообщение и посмотрите, как оно маршрутизируется: routing key, TTL, requeue, DLQ — всё видно в журнале.</p>
+          </article>
+          <article class="tools__feature">
+            <div class="tools__feature-icon"><Icon name="file-text" size={22} /></div>
+            <h3>Документация</h3>
+            <p>Экспортируйте схему в Markdown с Mermaid-диаграммой для ревью команды и архитектурной документации.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section section--deep" data-reveal>
+      <div class="container">
+        <div class="tools__specs">
+          <h2 class="h2">Технические детали</h2>
+          <dl class="tools__spec-list">
+            <dt>Среда исполнения</dt>
+            <dd>Браузер (WASM), без бэкенда</dd>
+            <dt>Совместимость</dt>
+            <dd>RabbitMQ 3.9+, AMQP 0-9-1</dd>
+            <dt>Экспорт</dt>
+            <dd>definitions.json, Spring AMQP @Bean, Mermaid, Markdown</dd>
+            <dt>Симуляция</dt>
+            <dd>Publisher confirms, consumer ack/nack, TTL, DLX, priority queues, quorum</dd>
+            <dt>Интеграция</dt>
+            <dd>Импорт из definitions.json, drag-and-drop топологии</dd>
+            <dt>Лицензия</dt>
+            <dd>MIT — открытый исходный код</dd>
+          </dl>
+        </div>
+      </div>
+    </section>
+  </main>
+  <Footer />
+  <StickyCta />
+</Base>
+
+<style>
+  .tools-hero {
+    padding: 92px 0 76px;
+    border-bottom: 1px solid var(--border);
+    background-image:
+      linear-gradient(var(--grid-line) 1px, transparent 1px),
+      linear-gradient(90deg, var(--grid-line) 1px, transparent 1px);
+    background-color: var(--bg);
+    background-size: 72px 72px;
+  }
+
+  .tools-hero__grid {
+    display: grid;
+    grid-template-columns: minmax(0, 0.85fr) minmax(0, 1.15fr);
+    gap: clamp(36px, 6vw, 80px);
+    align-items: start;
+  }
+
+  .tools-hero__copy {
+    padding-top: 12px;
+  }
+
+  .tools-hero__meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 7px;
+    margin-top: 24px;
+  }
+
+  .tools-hero__actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-top: 26px;
+  }
+
+  .tools-hero__preview {
+    position: relative;
+  }
+
+  .tools-hero__frame {
+    position: relative;
+    border: 1px solid var(--terminal);
+    border-radius: var(--radius);
+    background: var(--terminal);
+    box-shadow: 12px 12px 0 var(--border);
+    overflow: hidden;
+  }
+
+  .tools-hero__frame-bar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    min-height: 38px;
+    padding: 0 14px;
+    border-bottom: 1px solid var(--terminal-border);
+    background: var(--terminal-2);
+    color: var(--terminal-muted);
+    font-size: 8px;
+  }
+
+  .tools-hero__dots {
+    display: flex;
+    gap: 4px;
+  }
+
+  .tools-hero__dots i {
+    width: 8px;
+    height: 8px;
+    border-radius: 1px;
+    background: var(--terminal-muted);
+    opacity: 0.6;
+  }
+
+  .tools-hero__dots i:nth-child(1) { background: #e0443e; }
+  .tools-hero__dots i:nth-child(2) { background: #f5a623; }
+  .tools-hero__dots i:nth-child(3) { background: #27ae60; }
+
+  .tools-hero__url {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    max-width: 280px;
+  }
+
+  .tools-hero__live {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    flex: 0 0 auto;
+    color: #a9d18e;
+    font-family: var(--mono);
+    font-size: 8px;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+  }
+
+  .tools-hero__live i {
+    width: 5px;
+    height: 5px;
+    border-radius: 1px;
+    background: #a9d18e;
+  }
+
+  .tools-hero__screen {
+    position: relative;
+    overflow: hidden;
+    aspect-ratio: 1.22;
+    background: #12110f;
+  }
+
+  .tools-hero__screen img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: 50% 8%;
+    filter: saturate(0.88) contrast(1.03);
+  }
+
+  .tools-hero__screen::after {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(180deg, transparent 64%, rgba(16, 15, 13, 0.34));
+    content: "";
+    pointer-events: none;
+  }
+
+  .tools-hero__stamp {
+    position: absolute;
+    right: 16px;
+    bottom: 12px;
+    padding: 2px 8px;
+    border: 1px solid var(--terminal-border);
+    border-radius: var(--radius-sm);
+    background: rgba(23, 22, 20, 0.8);
+    backdrop-filter: blur(6px);
+    color: var(--terminal-muted);
+    font-size: 8px;
+    letter-spacing: 0.04em;
+  }
+
+  .tools__diagram-head {
+    margin-bottom: 28px;
+  }
+
+  .tools__diagram-hint {
+    display: none;
+    margin-top: 8px;
+    color: var(--muted);
+    font-size: 8px;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+  }
+
+  .tools__diagram-hint span {
+    color: var(--accent-ink);
+  }
+
+  .tools__features {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+  }
+
+  .tools__feature {
+    padding: 28px 24px;
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    background: var(--surface);
+    transition:
+      border-color 180ms ease,
+      background-color 180ms ease;
+  }
+
+  .tools__feature:hover {
+    border-color: var(--border-strong);
+    background: var(--surface-2);
+  }
+
+  .tools__feature-icon {
+    display: grid;
+    place-items: center;
+    width: 44px;
+    height: 44px;
+    border: 1px solid rgba(255, 85, 51, 0.3);
+    border-radius: var(--radius-sm);
+    background: var(--accent-soft);
+    color: var(--accent-ink);
+    margin-bottom: 16px;
+  }
+
+  .tools__feature h3 {
+    font-size: 18px;
+    font-weight: 600;
+    letter-spacing: -0.02em;
+    margin-bottom: 8px;
+  }
+
+  .tools__feature p {
+    color: var(--muted);
+    font-size: 14px;
+    line-height: 1.5;
+  }
+
+  .tools__specs h2 {
+    margin-bottom: 28px;
+  }
+
+  .tools__spec-list {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 12px 48px;
+    max-width: 760px;
+  }
+
+  .tools__spec-list dt {
+    grid-column: 1;
+    color: var(--muted);
+    font-family: var(--mono);
+    font-size: 10px;
+    font-weight: 500;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+  }
+
+  .tools__spec-list dd {
+    grid-column: 2;
+    margin: 0;
+    color: var(--text);
+    font-size: 14px;
+    line-height: 1.5;
+  }
+
+  @media (max-width: 1023px) {
+    .tools-hero__grid {
+      grid-template-columns: 1fr;
+    }
+
+    .tools-hero__preview {
+      order: -1;
+      max-width: 720px;
+      margin: 0 auto 36px;
+    }
+
+    .tools__features {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+
+  @media (max-width: 767px) {
+    .tools-hero {
+      padding: 64px 0 52px;
+    }
+
+    .tools-hero__copy {
+      padding-top: 0;
+    }
+
+    .tools-hero__preview {
+      order: 0;
+    }
+
+    .tools__features {
+      grid-template-columns: 1fr;
+    }
+
+    .tools__spec-list {
+      grid-template-columns: 1fr;
+      gap: 8px 0;
+    }
+
+    .tools__diagram-hint {
+      display: block;
+    }
+  }
+
+  @media (max-width: 480px) {
+    .tools-hero__actions {
+      flex-direction: column;
+    }
+
+    .tools-hero__actions > * {
+      width: 100%;
+    }
+  }
+</style>

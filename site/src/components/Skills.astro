@@ -1,0 +1,185 @@
+---
+import Icon from "./Icon.astro";
+import SectionHeader from "./SectionHeader.astro";
+import { skills } from "../data/course";
+---
+
+<section class="section section--deep skills" id="skills">
+  <div class="container">
+    <SectionHeader
+      kicker="Результаты"
+      title="Восемь навыков, которые останутся после курса"
+      lead="Не список тем, а действия, которые вы сможете повторить на работе: выбрать exchange, проверить маршрут, защитить решение."
+      aside="Каждый навык закрепляется практикой в среде и проверяется по чек-листу."
+    />
+
+    <div class="skills__grid">
+      {skills.map((skill, index) => (
+        <article class="skills__card" data-reveal style={`transition-delay: ${(index % 4) * 45}ms`}>
+          <span class="skills__number mono">{skill.index}</span>
+          <h3>{skill.title}</h3>
+          <p>{skill.text}</p>
+          <span class="skills__arrow"><Icon name="arrow-up-right" size={15} /></span>
+        </article>
+      ))}
+    </div>
+
+    <div class="skills__footer">
+      <span class="skills__footer-mark"><Icon name="spark" size={18} /></span>
+      <p><strong>На выходе</strong> — не конспект, а набор решений: схема, конфиг, код и аргументы для ревью.</p>
+      <a href="#artifacts">Посмотреть артефакты <Icon name="arrow-right" size={14} /></a>
+    </div>
+  </div>
+</section>
+
+<style>
+  .skills__grid {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 12px;
+  }
+
+  .skills__card {
+    position: relative;
+    min-height: 230px;
+    padding: 20px;
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    background: var(--surface);
+    transition:
+      border-color 180ms ease,
+      transform 180ms ease;
+  }
+
+  .skills__card::before {
+    position: absolute;
+    top: -1px;
+    right: 20px;
+    left: 20px;
+    height: 2px;
+    background: var(--accent);
+    content: "";
+    opacity: 0;
+    transition: opacity 180ms ease;
+  }
+
+  .skills__card:hover {
+    border-color: var(--border-strong);
+    transform: translateY(-2px);
+  }
+
+  .skills__card:hover::before {
+    opacity: 1;
+  }
+
+  .skills__number {
+    color: var(--accent-ink);
+    font-size: 10px;
+    letter-spacing: 0.08em;
+  }
+
+  .skills__card h3 {
+    margin-top: 38px;
+    font-size: 18px;
+    font-weight: 600;
+    letter-spacing: -0.02em;
+    line-height: 1.2;
+  }
+
+  .skills__card p {
+    margin-top: 9px;
+    padding-right: 20px;
+    color: var(--muted);
+    font-size: 13px;
+    line-height: 1.5;
+  }
+
+  .skills__arrow {
+    position: absolute;
+    right: 16px;
+    bottom: 14px;
+    color: var(--border-strong);
+  }
+
+  .skills__footer {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    margin-top: 22px;
+    padding: 18px 20px;
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    background: var(--surface);
+  }
+
+  .skills__footer-mark {
+    display: grid;
+    place-items: center;
+    flex: 0 0 auto;
+    width: 38px;
+    height: 38px;
+    border: 1px solid rgba(255, 85, 51, 0.34);
+    border-radius: var(--radius-sm);
+    background: var(--accent-soft);
+    color: var(--accent-ink);
+  }
+
+  .skills__footer p {
+    color: var(--muted);
+    font-size: 13px;
+    line-height: 1.45;
+  }
+
+  .skills__footer strong {
+    color: var(--text);
+    font-weight: 600;
+  }
+
+  .skills__footer a {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    margin-left: auto;
+    color: var(--accent-ink);
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.05em;
+    white-space: nowrap;
+    text-transform: uppercase;
+  }
+
+  .skills__footer a:hover {
+    color: var(--text);
+  }
+
+  @media (max-width: 1023px) {
+    .skills__grid {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+  }
+
+  @media (max-width: 767px) {
+    .skills__grid {
+      grid-template-columns: 1fr;
+      gap: 10px;
+    }
+
+    .skills__card {
+      min-height: 0;
+      padding: 18px;
+    }
+
+    .skills__card h3 {
+      margin-top: 24px;
+    }
+
+    .skills__footer {
+      align-items: flex-start;
+      padding: 16px;
+    }
+
+    .skills__footer a {
+      display: none;
+    }
+  }
+</style>

@@ -1,0 +1,155 @@
+---
+import Base from "./Base.astro";
+import Footer from "../components/Footer.astro";
+import Icon from "../components/Icon.astro";
+import { site } from "../data/course";
+
+interface Props {
+  title: string;
+  kicker: string;
+  heading: string;
+  lead?: string;
+}
+
+const { title, kicker, heading, lead } = Astro.props;
+---
+
+<Base title={`${title} — RabbitMQ Designer`} description={lead}>
+  <header class="sub-header">
+    <div class="container sub-header__inner">
+      <a class="sub-header__logo" href="/">
+        <span aria-hidden="true">//</span>
+        <strong>RabbitMQ Designer</strong>
+      </a>
+      <nav>
+        <a href="/">На главную</a>
+        <a href="/#program">Программа</a>
+        <a href="/#lead">Заявка</a>
+      </nav>
+      <a class="sub-header__app" href={site.appUrl} target="_blank" rel="noopener noreferrer">
+        Открыть среду <Icon name="arrow-up-right" size={15} />
+      </a>
+    </div>
+  </header>
+
+  <main id="main">
+    <section class="sub-hero">
+      <div class="container">
+        <span class="eyebrow">{kicker}</span>
+        <h1 class="display">{heading}</h1>
+        {lead && <p class="lead">{lead}</p>}
+      </div>
+    </section>
+    <slot />
+  </main>
+
+  <Footer />
+</Base>
+
+<style>
+  .sub-header {
+    position: sticky;
+    top: 0;
+    z-index: 50;
+    border-bottom: 1px solid var(--border);
+    background: rgba(251, 250, 248, 0.94);
+    backdrop-filter: blur(14px);
+  }
+
+  .sub-header__inner {
+    display: flex;
+    align-items: center;
+    gap: 28px;
+    min-height: 72px;
+  }
+
+  .sub-header__logo {
+    display: inline-flex;
+    align-items: center;
+    gap: 9px;
+    font-size: 13px;
+    font-weight: 600;
+  }
+
+  .sub-header__logo span {
+    display: grid;
+    place-items: center;
+    width: 30px;
+    height: 30px;
+    border-radius: var(--radius-sm);
+    background: var(--accent);
+    color: var(--terminal);
+    font-family: var(--mono);
+    font-size: 15px;
+    font-weight: 700;
+    letter-spacing: -0.18em;
+  }
+
+  .sub-header nav {
+    display: flex;
+    gap: 20px;
+    margin-left: auto;
+  }
+
+  .sub-header nav a {
+    color: var(--muted);
+    font-family: var(--mono);
+    font-size: 9px;
+    font-weight: 500;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+  }
+
+  .sub-header nav a:hover {
+    color: var(--text);
+  }
+
+  .sub-header__app {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    color: var(--accent-ink);
+    font-family: var(--mono);
+    font-size: 9px;
+    font-weight: 600;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+  }
+
+  .sub-hero {
+    padding: 78px 0 68px;
+    border-bottom: 1px solid var(--border);
+    background-image:
+      linear-gradient(var(--grid-line) 1px, transparent 1px),
+      linear-gradient(90deg, var(--grid-line) 1px, transparent 1px);
+    background-color: var(--bg);
+    background-size: 72px 72px;
+    background-position: 0 0;
+  }
+
+  .sub-hero .display {
+    max-width: 940px;
+  }
+
+  @media (max-width: 767px) {
+    .sub-header__inner {
+      min-height: 62px;
+    }
+
+    .sub-header nav {
+      display: none;
+    }
+
+    .sub-header__app {
+      margin-left: auto;
+    }
+
+    .sub-header__logo strong {
+      font-size: 12px;
+    }
+
+    .sub-hero {
+      padding: 54px 0 46px;
+    }
+  }
+</style>

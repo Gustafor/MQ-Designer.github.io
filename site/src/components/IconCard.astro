@@ -1,0 +1,159 @@
+---
+import Icon from "./Icon.astro";
+import type { IconName } from "../data/course";
+
+interface Props {
+  index?: string;
+  icon?: IconName;
+  title: string;
+  text?: string;
+  bullets?: string[];
+  href?: string;
+  linkLabel?: string;
+  class?: string;
+}
+
+const {
+  index,
+  icon,
+  title,
+  text,
+  bullets = [],
+  href,
+  linkLabel = "Подробнее",
+  class: className = "",
+} = Astro.props;
+---
+
+<article class:list={["icon-card", className]}>
+  <div class="icon-card__top">
+    {icon && <span class="icon-card__icon"><Icon name={icon} size={22} /></span>}
+    {index && <span class="icon-card__index mono">{index}</span>}
+  </div>
+  <h3 class="icon-card__title">{title}</h3>
+  {text && <p class="icon-card__text">{text}</p>}
+  {bullets.length > 0 && (
+    <ul class="icon-card__list">
+      {bullets.map((bullet) => (
+        <li>
+          <Icon name="check" size={14} />
+          <span>{bullet}</span>
+        </li>
+      ))}
+    </ul>
+  )}
+  {href && (
+    <a class="icon-card__link" href={href}>
+      {linkLabel} <Icon name="arrow-up-right" size={16} />
+    </a>
+  )}
+</article>
+
+<style>
+  .icon-card {
+    display: flex;
+    flex-direction: column;
+    min-height: 100%;
+    padding: 24px;
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    background: var(--surface);
+    transition:
+      border-color 180ms ease,
+      transform 180ms ease;
+  }
+
+  .icon-card:hover {
+    border-color: var(--border-strong);
+    transform: translateY(-2px);
+  }
+
+  .icon-card__top {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    margin-bottom: 28px;
+  }
+
+  .icon-card__icon {
+    display: grid;
+    place-items: center;
+    width: 44px;
+    height: 44px;
+    border: 1px solid rgba(255, 85, 51, 0.3);
+    border-radius: var(--radius-sm);
+    background: var(--accent-soft);
+    color: var(--accent-ink);
+  }
+
+  .icon-card__index {
+    color: var(--muted);
+    font-size: 12px;
+    letter-spacing: 0.06em;
+  }
+
+  .icon-card__title {
+    font-size: 21px;
+    font-weight: 600;
+    letter-spacing: -0.02em;
+    line-height: 1.2;
+  }
+
+  .icon-card__text {
+    margin-top: 10px;
+    color: var(--muted);
+    font-size: 15px;
+    line-height: 1.5;
+  }
+
+  .icon-card__list {
+    display: grid;
+    gap: 8px;
+    margin-top: 20px;
+    color: var(--text);
+    font-size: 14px;
+    line-height: 1.35;
+  }
+
+  .icon-card__list li {
+    display: flex;
+    align-items: flex-start;
+    gap: 8px;
+  }
+
+  .icon-card__list svg {
+    flex: 0 0 auto;
+    margin-top: 2px;
+    color: var(--accent-ink);
+  }
+
+  .icon-card__link {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    width: fit-content;
+    margin-top: auto;
+    padding-top: 24px;
+    color: var(--accent-ink);
+    font-family: var(--mono);
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+  }
+
+  .icon-card__link:hover {
+    color: var(--text);
+  }
+
+  @media (max-width: 767px) {
+    .icon-card {
+      padding: 18px;
+    }
+
+    .icon-card__top {
+      margin-bottom: 20px;
+    }
+  }
+</style>

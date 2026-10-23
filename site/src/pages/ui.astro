@@ -1,0 +1,363 @@
+---
+import Base from "../layouts/Base.astro";
+import Footer from "../components/Footer.astro";
+import Icon from "../components/Icon.astro";
+import Badge from "../components/Badge.astro";
+import Button from "../components/Button.astro";
+import FeatureTile from "../components/FeatureTile.astro";
+import IconCard from "../components/IconCard.astro";
+import PricingCard from "../components/PricingCard.astro";
+import Accordion from "../components/Accordion.astro";
+import LeadForm from "../components/LeadForm.astro";
+import Topology from "../components/Topology.astro";
+import { facts, modules, plans, audiences, type IconName } from "../data/course";
+
+const colors = [
+  { name: "bg", value: "#FBFAF8" },
+  { name: "bg-deep", value: "#F3F0EC" },
+  { name: "surface", value: "#FFFFFF" },
+  { name: "border", value: "#D8D3CD" },
+  { name: "text", value: "#1D1B1A" },
+  { name: "muted", value: "#67615D" },
+  { name: "accent", value: "#FF5533" },
+  { name: "accent-ink", value: "#B7351C" },
+  { name: "terminal", value: "#171614" },
+  { name: "terminal-muted", value: "#A9A19A" },
+];
+
+const icons: IconName[] = ["calendar", "clock", "monitor", "code", "layers", "shield", "certificate", "user", "route", "database", "book", "mail", "target", "github", "telegram", "spark", "zap"];
+---
+
+<Base title="UI-кит — RabbitMQ Designer" description="Дизайн-токены и компоненты прототипа лендинга курса по RabbitMQ.">
+  <header class="ui-header">
+    <div class="container ui-header__inner">
+      <a href="/">← На главную</a>
+      <span class="mono">ui-kit / v0.1</span>
+      <a href="/#lead">Записаться</a>
+    </div>
+  </header>
+
+  <main id="main" class="container ui">
+    <section class="ui-hero">
+      <span class="eyebrow">UI-кит</span>
+      <h1 class="display">Компоненты <br />и токены</h1>
+      <p class="lead">Визуальный язык прототипа: светлая «бумажная» база, моноширинная типографика, тонкие рамки, терминальные модули и оранжевый RabbitMQ-акцент.</p>
+    </section>
+
+    <section class="ui-block">
+      <div class="ui-block__head"><span class="mono">01 / colors</span><h2 class="h3">Палитра</h2></div>
+      <div class="ui-colors">
+        {colors.map((color) => (
+          <div class="ui-color">
+            <span class="ui-color__swatch" style={`background:${color.value}`}></span>
+            <span><strong>{color.name}</strong><small class="mono">{color.value}</small></span>
+          </div>
+        ))}
+      </div>
+    </section>
+
+    <section class="ui-block">
+      <div class="ui-block__head"><span class="mono">02 / type</span><h2 class="h3">Типографика</h2></div>
+      <div class="ui-type">
+        <div><span class="mono">display / 56</span><p class="display">Проектируйте топологии</p></div>
+        <div><span class="mono">h2 / 44</span><p class="h2">Не теряйте сообщения</p></div>
+        <div><span class="mono">h3 / 24</span><p class="h3">DLQ и retry</p></div>
+        <div><span class="mono">body / 16</span><p class="lead">Очередь — это контракт между сервисами, а не строка в конфиге.</p></div>
+      </div>
+    </section>
+
+    <section class="ui-block">
+      <div class="ui-block__head"><span class="mono">03 / buttons + badges</span><h2 class="h3">Кнопки и бейджи</h2></div>
+      <div class="ui-row">
+        <Button href="#lead" icon>Записаться на курс</Button>
+        <Button href="#lead" variant="secondary" icon>Получить программу</Button>
+        <Button href="#lead" variant="dark" icon>Акцентная кнопка</Button>
+        <Button href="#lead" variant="ghost" icon>Текстовая ссылка</Button>
+        <Button type="button" disabled>Disabled</Button>
+      </div>
+      <div class="ui-row">
+        <Badge variant="accent">Курс + среда</Badge>
+        <Badge variant="muted">Java / Spring</Badge>
+        <Badge variant="outline">Поток №1</Badge>
+        <Badge variant="yellow">Оптимальный</Badge>
+      </div>
+    </section>
+
+    <section class="ui-block">
+      <div class="ui-block__head"><span class="mono">04 / facts</span><h2 class="h3">Плитки фактов</h2></div>
+      <div class="ui-facts">
+        {facts.map((fact) => <FeatureTile {...fact} />)}
+      </div>
+    </section>
+
+    <section class="ui-block">
+      <div class="ui-block__head"><span class="mono">05 / icon cards</span><h2 class="h3">Карточки с иконками</h2></div>
+      <div class="ui-cards">
+        {audiences.map((audience) => <IconCard {...audience} />)}
+      </div>
+    </section>
+
+    <section class="ui-block">
+      <div class="ui-block__head"><span class="mono">06 / icons</span><h2 class="h3">Иконки</h2></div>
+      <div class="ui-icons">
+        {icons.map((name) => (
+          <div class="ui-icon"><Icon name={name} size={22} /><span class="mono">{name}</span></div>
+        ))}
+      </div>
+    </section>
+
+    <section class="ui-block">
+      <div class="ui-block__head"><span class="mono">07 / pricing</span><h2 class="h3">Тариф</h2></div>
+      <div class="ui-pricing"><PricingCard plan={plans[1]} /></div>
+    </section>
+
+    <section class="ui-block">
+      <div class="ui-block__head"><span class="mono">08 / accordion</span><h2 class="h3">Аккордеон</h2></div>
+      <Accordion items={modules.slice(0, 3)} />
+    </section>
+
+    <section class="ui-block">
+      <div class="ui-block__head"><span class="mono">09 / form</span><h2 class="h3">Форма заявки</h2></div>
+      <div class="ui-form" id="lead"><LeadForm /></div>
+    </section>
+
+    <section class="ui-block">
+      <div class="ui-block__head"><span class="mono">10 / topology</span><h2 class="h3">Схема</h2></div>
+      <Topology />
+    </section>
+  </main>
+
+  <Footer />
+</Base>
+
+<style>
+  .ui-header {
+    border-bottom: 1px solid var(--border);
+    background: var(--bg-deep);
+  }
+
+  .ui-header__inner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    min-height: 64px;
+    font-size: 12px;
+    font-weight: 600;
+  }
+
+  .ui-header__inner a {
+    color: var(--muted);
+  }
+
+  .ui-header__inner a:hover {
+    color: var(--accent-ink);
+  }
+
+  .ui-header__inner .mono {
+    color: var(--accent-ink);
+    font-size: 9px;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+  }
+
+  .ui {
+    padding-top: 64px;
+    padding-bottom: 80px;
+  }
+
+  .ui-hero {
+    padding-bottom: 56px;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .ui-hero .display {
+    max-width: 760px;
+  }
+
+  .ui-block {
+    padding: 48px 0;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .ui-block__head {
+    display: flex;
+    align-items: baseline;
+    gap: 16px;
+    margin-bottom: 24px;
+  }
+
+  .ui-block__head .mono {
+    color: var(--accent-ink);
+    font-size: 9px;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+  }
+
+  .ui-colors {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 1px;
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    background: var(--border);
+    overflow: hidden;
+  }
+
+  .ui-color {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 12px;
+    background: var(--bg);
+  }
+
+  .ui-color__swatch {
+    flex: 0 0 auto;
+    width: 38px;
+    height: 38px;
+    border: 1px solid var(--border-strong);
+    border-radius: var(--radius-sm);
+  }
+
+  .ui-color span:last-child {
+    display: grid;
+    gap: 3px;
+  }
+
+  .ui-color strong {
+    font-size: 12px;
+    font-weight: 600;
+  }
+
+  .ui-color small {
+    color: var(--muted);
+    font-size: 9px;
+  }
+
+  .ui-type {
+    display: grid;
+    gap: 28px;
+  }
+
+  .ui-type > div {
+    display: grid;
+    gap: 10px;
+    padding-bottom: 24px;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .ui-type > div:last-child {
+    padding-bottom: 0;
+    border-bottom: 0;
+  }
+
+  .ui-type > div > .mono {
+    color: var(--muted);
+    font-size: 9px;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+  }
+
+  .ui-type .display,
+  .ui-type .h2,
+  .ui-type .lead {
+    margin-top: 0;
+  }
+
+  .ui-row {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 16px;
+  }
+
+  .ui-row:last-child {
+    margin-bottom: 0;
+  }
+
+  .ui-facts {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 10px;
+  }
+
+  .ui-cards {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 12px;
+  }
+
+  .ui-icons {
+    display: grid;
+    grid-template-columns: repeat(8, minmax(0, 1fr));
+    gap: 8px;
+  }
+
+  .ui-icon {
+    display: grid;
+    place-items: center;
+    gap: 8px;
+    min-height: 82px;
+    padding: 12px 6px;
+    border: 1px solid var(--border);
+    border-radius: var(--radius-sm);
+    background: var(--surface);
+    color: var(--accent-ink);
+  }
+
+  .ui-icon span {
+    overflow: hidden;
+    max-width: 100%;
+    color: var(--muted);
+    font-size: 8px;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .ui-pricing {
+    max-width: 380px;
+  }
+
+  .ui-form {
+    max-width: 640px;
+  }
+
+  @media (max-width: 1023px) {
+    .ui-colors {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .ui-facts {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .ui-cards {
+      grid-template-columns: 1fr;
+    }
+
+    .ui-icons {
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+    }
+  }
+
+  @media (max-width: 767px) {
+    .ui {
+      padding-top: 42px;
+    }
+
+    .ui-colors {
+      grid-template-columns: 1fr;
+    }
+
+    .ui-icons {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .ui-block__head {
+      display: grid;
+      gap: 6px;
+    }
+  }
+</style>

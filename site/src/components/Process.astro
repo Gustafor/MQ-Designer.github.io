@@ -1,0 +1,140 @@
+---
+import Icon from "./Icon.astro";
+import SectionHeader from "./SectionHeader.astro";
+import { processSteps } from "../data/course";
+---
+
+<section class="section section--deep process" id="process">
+  <div class="container">
+    <SectionHeader
+      kicker="Как проходит"
+      title="Смотрите, собираете, проверяете, защищаете"
+      lead="Ритм рассчитан на работающих людей: два вечера в неделю и практика между занятиями."
+      aside="Пропустили занятие? Запись, материалы и разбор остаются в личном кабинете."
+    />
+
+    <div class="process__grid">
+      {processSteps.map((step, index) => (
+        <article class="process__step" data-reveal style={`transition-delay: ${index * 70}ms`}>
+          <div class="process__top">
+            <span class="process__number mono">{step.number}</span>
+            <span class="process__icon"><Icon name={step.icon} size={21} /></span>
+          </div>
+          <h3>{step.title}</h3>
+          <p>{step.text}</p>
+          {index < processSteps.length - 1 && <span class="process__connector" aria-hidden="true"></span>}
+        </article>
+      ))}
+    </div>
+
+    <div class="process__footnote">
+      <Icon name="clock" size={15} />
+      <span>Средняя нагрузка — <strong>6–8 часов в неделю</strong>. Все занятия записываются.</span>
+    </div>
+  </div>
+</section>
+
+<style>
+  .process__grid {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 14px;
+  }
+
+  .process__step {
+    position: relative;
+    min-height: 230px;
+    padding: 20px;
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    background: var(--surface);
+  }
+
+  .process__top {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    margin-bottom: 40px;
+  }
+
+  .process__number {
+    color: var(--accent-ink);
+    font-size: 11px;
+    letter-spacing: 0.08em;
+  }
+
+  .process__icon {
+    display: grid;
+    place-items: center;
+    width: 38px;
+    height: 38px;
+    border: 1px solid var(--border);
+    border-radius: var(--radius-sm);
+    color: var(--muted);
+  }
+
+  .process__step h3 {
+    font-size: 20px;
+    font-weight: 600;
+    letter-spacing: -0.02em;
+  }
+
+  .process__step p {
+    margin-top: 8px;
+    color: var(--muted);
+    font-size: 13px;
+    line-height: 1.5;
+  }
+
+  .process__connector {
+    position: absolute;
+    top: 39px;
+    right: -15px;
+    width: 16px;
+    height: 1px;
+    background: var(--border-strong);
+  }
+
+  .process__footnote {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-top: 22px;
+    color: var(--muted);
+    font-size: 12px;
+  }
+
+  .process__footnote svg {
+    color: var(--accent-ink);
+  }
+
+  .process__footnote strong {
+    color: var(--text);
+    font-weight: 600;
+  }
+
+  @media (max-width: 1023px) {
+    .process__grid {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .process__connector {
+      display: none;
+    }
+  }
+
+  @media (max-width: 767px) {
+    .process__grid {
+      grid-template-columns: 1fr;
+    }
+
+    .process__step {
+      min-height: 0;
+    }
+
+    .process__top {
+      margin-bottom: 26px;
+    }
+  }
+</style>
