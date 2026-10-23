@@ -1,0 +1,28 @@
+{
+  "name": "crypto-trading-bot",
+  "version": "0.1.0",
+  "description": "AI-driven crypto trading bot with Chief Architect orchestration",
+  "private": true,
+  "workspaces": [
+    "orchestrator/backend",
+    "orchestrator/frontend"
+  ],
+  "scripts": {
+    "dev:backend": "cd orchestrator/backend && python -m src.orchestrator.main --mock",
+    "dev:frontend": "cd orchestrator/frontend && npm run dev",
+    "dev": "concurrently \"npm run dev:backend\" \"npm run dev:frontend\"",
+    "build:frontend": "cd orchestrator/frontend && npm run build",
+    "install:all": "npm install && cd orchestrator/frontend && npm install",
+    "test:backend": "cd orchestrator/backend && pytest",
+    "lint:backend": "cd orchestrator/backend && ruff check . && mypy src",
+    "lint:frontend": "cd orchestrator/frontend && npm run lint",
+    "db:reset": "rm -f orchestrator/backend/data/orchestrator.db"
+  },
+  "devDependencies": {
+    "concurrently": "^8.2.0"
+  },
+  "engines": {
+    "node": ">=18.0.0",
+    "python": ">=3.11"
+  }
+}

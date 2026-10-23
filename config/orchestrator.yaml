@@ -1,0 +1,99 @@
+# Orchestrator Configuration
+# Chief Architect + Worker Pool для разработки торгового бота
+
+chief:
+  model: "opencode-go/kimi-k3"
+  variant: "high"
+  system_prompt: |
+    Ты — Chief Architect проекта крипто-торгового бота.
+    Твоя задача: принимать высокоуровневые требования, создавать планы выполнения (DAG задач),
+    назначать workers, ревьюить результаты, принимать решения о готовности.
+    
+    Принципы:
+    - Декомпозиция на атомарные задачи с чёткими входными/выходными контрактами
+    - Назначение задачи подходящему worker'у по типу (research/coder/reviewer/tester/doc)
+    - Контроль качества: код должен быть production-ready, типизирован, тестирован
+    - Эффективное использование лимитов: простые задачи — дешёвым моделям, сложные — лучшим
+    - Приватность: никаких API-ключей в контексте, используй .env.example
+
+  max_concurrent_tasks: 3
+  review_threshold: "strict"  # strict | normal | lenient
+
+workers:
+  - id: "researcher"
+    name: "Researcher"
+    type: "research"
+    model: "opencode-go/deepseek-v4-pro"
+    variant: "high"
+    system_prompt: |
+      Ты — Researcher. Твоя задача: собирать информацию, читать API-документацию бирж,
+      изучать лучшие практики, анализировать стратегии, готовить технические отчёты.
+      Выход: markdown-отчёт с выводами, ссылками, рекомендациями.
+    capabilities: ["web_search", "file_read", "analysis", "reporting"]
+    max_concurrent: 2
+
+  - id: "coder"
+    name: "Coder"
+    type: "coding"
+    model: "opencode-go/glm-5.2"
+    variant: "high"
+    system_prompt: |
+      Ты — Coder. Пишешь production-ready Python код: async, типизированный (mypy),
+      с docstrings, ошибками, логированием. Следуешь архитектуре проекта.
+      Выход: файлы в src/, тесты в tests/.
+    capabilities: ["code_generation", "refactoring", "debugging", "file_write"]
+    max_concurrent: 3
+
+  - id: "reviewer"
+    name: "Reviewer"
+    type: "review"
+    model: "opencode-go/kimi-k2.7-code"
+    variant: "medium"
+    system_prompt: |
+      Ты — Code Reviewer. Проверяешь: безопасность, производительность, best practices,
+      соответствие архитектуре, тестируемость. Даёшь конкретные комментарии с строками.
+      Выход: review report (PASS / CHANGES_REQUESTED / REJECT).
+    capabilities: ["code_review", "security_audit", "performance_analysis"]
+    max_concurrent: 2
+
+  - id: "tester"
+    name: "Tester"
+    type: "testing"
+    model: "opencode-go/deepseek-v4.1-flash"
+    variant: "max"
+    system_prompt: |
+      Ты — Tester. Пишешь unit/integration тесты (pytest), прогоняешь их, фиксишь флаки.
+      Покрываешь edge cases, ошибки сети, биржа-специфичные случаи.
+      Выход: тестовые файлы, отчёт покрытия.
+    capabilities: ["test_generation", "test_execution", "coverage_analysis"]
+    max_concurrent: 2
+
+  - id: "documenter"
+    name: "Documenter"
+    type: "documentation"
+    model: "opencode-go/glm-5.3-flash"
+    variant: "low"
+    system_prompt: |
+      Ты — Documenter. Обновляешь README, ARCHITECTURE.md, API docs, ADR.
+      Пишешь чётко, с примерами, для разработчиков.
+    capabilities: ["doc_generation", "diagram_creation"]
+    max_concurrent: 1
+
+task_routing:
+  # Авто-назначение по типу задачи
+  research: "researcher"
+  architecture: "chief"
+  coding: "coder"
+  review: "reviewer"
+  testing: "tester"
+  documentation: "documenter"
+  quick_fix: "coder"  # с variant=low
+
+limits:
+  go_monthly_usd: 60
+  alert_threshold_pct: 80
+  auto_fallback_to_free: true
+  free_models:
+    - "opencode/beam-free"
+    - "opencode/nemotron-3-ultra-free"
+    - "opencode/nemotron-3.5-super-vl-free"

@@ -1,0 +1,149 @@
+# Model Matrix: Task Type → Model + Variant + Limits
+# Используется Chief'ом и Router'ом для принятия решений
+
+task_types:
+  # === АРХИТЕКТУРА И ПЛАНИРОВАНИЕ ===
+  architecture_design:
+    description: "Системная архитектура, выбор стека, проектирование модулей, ADR"
+    model: "opencode-go/kimi-k3"
+    variant: "high"
+    context_window: 1000000
+    privacy: "required"
+    estimated_cost_usd: 0.15
+    max_tokens_per_request: 8000
+    suitable_for: ["initial_design", "refactor_planning", "tech_decisions", "adr_writing"]
+
+  api_research:
+    description: "Изучение API бирж (Binance, Bybit, Kraken), WebSocket, REST, rate limits"
+    model: "opencode-go/deepseek-v4-pro"
+    variant: "high"
+    context_window: 1000000
+    privacy: "required"
+    estimated_cost_usd: 0.25
+    max_tokens_per_request: 12000
+    suitable_for: ["exchange_api_analysis", "websocket_protocol_study", "rate_limit_mapping"]
+
+  # === РАЗРАБОТКА ЯДРА ===
+  core_implementation:
+    description: "Реализация ядра: exchange adapter, order manager, position tracker, risk engine"
+    model: "opencode-go/glm-5.2"
+    variant: "high"
+    context_window: 1000000
+    privacy: "required"
+    estimated_cost_usd: 0.20
+    max_tokens_per_request: 8000
+    suitable_for: ["exchange_adapter", "order_manager", "position_tracker", "risk_engine", "portfolio"]
+
+  strategy_implementation:
+    description: "Стратегии: сигналы, индикаторы, вход/выход, позиционирование"
+    model: "opencode-go/deepseek-v4-pro"
+    variant: "max"
+    context_window: 1000000
+    privacy: "required"
+    estimated_cost_usd: 0.30
+    max_tokens_per_request: 10000
+    suitable_for: ["technical_indicators", "signal_generation", "entry_exit_logic", "position_sizing"]
+
+  data_pipeline:
+    description: "Сбор OHLCV, orderbook, trades; хранение (TimescaleDB/Parquet), фичи"
+    model: "opencode-go/glm-5.2"
+    variant: "high"
+    context_window: 1000000
+    privacy: "required"
+    estimated_cost_usd: 0.18
+    max_tokens_per_request: 8000
+    suitable_for: ["data_collector", "feature_engineering", "storage_layer", "backtest_data"]
+
+  # === ТЕСТИРОВАНИЕ И КАЧЕСТВО ===
+  test_generation:
+    description: "Unit/integration тесты, моки бирж, property-based testing"
+    model: "opencode-go/deepseek-v4.1-flash"
+    variant: "max"
+    context_window: 1000000
+    privacy: "required"
+    estimated_cost_usd: 0.10
+    max_tokens_per_request: 6000
+    suitable_for: ["unit_tests", "integration_tests", "mock_exchanges", "property_tests"]
+
+  code_review:
+    description: "Security audit, performance, best practices, архитектурное соответствие"
+    model: "opencode-go/kimi-k2.7-code"
+    variant: "medium"
+    context_window: 262144
+    privacy: "required"
+    estimated_cost_usd: 0.12
+    max_tokens_per_request: 4000
+    suitable_for: ["security_review", "performance_review", "architecture_compliance"]
+
+  # === VISION ЗАДАЧИ ===
+  chart_analysis:
+    description: "Анализ скриншотов TradingView, UI бирж, графиков, паттернов"
+    model: "opencode-go/kimi-k2.7-code"
+    variant: "medium"
+    context_window: 262144
+    privacy: "required"
+    estimated_cost_usd: 0.15
+    max_tokens_per_request: 4000
+    suitable_for: ["pattern_recognition", "ui_parsing", "chart_annotation"]
+
+  # === БЫСТРЫЕ ЗАДАЧИ (ДЕШЁВЫЕ/БЕСПЛАТНЫЕ) ===
+  quick_fix:
+    description: "Мелкие багфиксы, форматирование, импорты, типы, линтинг"
+    model: "opencode/beam-free"
+    variant: "low"
+    context_window: 1000000
+    privacy: "optional"
+    estimated_cost_usd: 0.00
+    max_tokens_per_request: 2000
+    suitable_for: ["lint_fixes", "type_hints", "import_sort", "small_bugs", "formatting"]
+
+  documentation:
+    description: "README, ARCHITECTURE.md, API docs, примеры использования"
+    model: "opencode-go/glm-5.3-flash"
+    variant: "low"
+    context_window: 1000000
+    privacy: "optional"
+    estimated_cost_usd: 0.02
+    max_tokens_per_request: 3000
+    suitable_for: ["readme_update", "api_docs", "usage_examples", "changelog"]
+
+  refactoring:
+    description: "Рефакторинг без изменения логики: извлечение методов, переименование, DRY"
+    model: "opencode-go/glm-5.2"
+    variant: "medium"
+    context_window: 1000000
+    privacy: "required"
+    estimated_cost_usd: 0.15
+    max_tokens_per_request: 6000
+    suitable_for: ["extract_method", "rename", "deduplication", "simplification"]
+
+# Fallback цепочка при исчерпании лимитов
+fallback_chain:
+  - "opencode-go/glm-5.3-flash"      # Дешёвый, 1M ctx, zero retention
+  - "opencode-go/deepseek-v4.1-flash" # Дешёвый, 1M ctx, zero retention
+  - "opencode/beam-free"              # Бесплатный, 1M ctx
+  - "opencode/nemotron-3-ultra-free"  # Бесплатный, 1M ctx, agentic
+
+# Приватность моделей (zero retention = true)
+privacy_tier:
+  zero_retention:
+    - "opencode-go/glm-5.3-flash"
+    - "opencode-go/glm-5.3"
+    - "opencode-go/glm-5.2"
+    - "opencode-go/kimi-k3"
+    - "opencode-go/kimi-k2.7-code"
+    - "opencode-go/deepseek-v4.1-flash"
+    - "opencode-go/deepseek-v4-pro"
+    - "opencode-go/minimax-m3"
+    - "opencode-go/minimax-m3.1-flash"
+    - "opencode-go/longcat-2.0"
+  thirty_days_retention:
+    - "opencode-go/beam-free"
+    - "opencode-go/grok-4.7"
+    - "opencode-go/gpt-6-luna"
+    - "opencode-go/gpt-5.6-luna"
+    - "opencode-go/claude-haiku-5-5"
+  training_allowed:
+    - "opencode-go/gemini-4-argon-contributor"
+    - "opencode-go/muse-spark-1.3-contributor"
+    - "opencode-go/muse-spark-1.2-contributor"
