@@ -1,0 +1,70 @@
+---
+import "../styles/tokens.css";
+import "../styles/global.css";
+
+interface Props {
+  title?: string;
+  description?: string;
+}
+
+const {
+  title = "Курс по RabbitMQ для Java-разработчиков — RabbitMQ Designer",
+  description = "6 недель практики: топология, DLQ, Spring AMQP, симуляция и готовые артефакты. Автор среды RabbitMQ Designer.",
+} = Astro.props;
+
+const canonical = new URL(Astro.url.pathname, Astro.site ?? "https://example.ru");
+const ogImage = new URL("/og.png", canonical);
+---
+
+<!doctype html>
+<html lang="ru">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#fbfaf8" />
+    <meta name="description" content={description} />
+    <script is:inline>document.documentElement.classList.add("js");</script>
+    <link rel="canonical" href={canonical} />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <meta property="og:type" content="website" />
+    <meta property="og:locale" content="ru_RU" />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:image" content={ogImage} />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content="Курс по RabbitMQ и среда RabbitMQ Designer" />
+    <meta property="og:site_name" content="RabbitMQ Designer" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:image" content={ogImage} />
+    <title>{title}</title>
+  </head>
+  <body>
+    <a class="skip-link" href="#main">К основному контенту</a>
+    <slot />
+
+    <script>
+      const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+      const items = document.querySelectorAll<HTMLElement>("[data-reveal]");
+
+      if (reduce || !("IntersectionObserver" in window)) {
+        items.forEach((item) => item.classList.add("is-visible"));
+      } else {
+        const observer = new IntersectionObserver(
+          (entries) => {
+            entries.forEach((entry) => {
+              if (!entry.isIntersecting) return;
+              entry.target.classList.add("is-visible");
+              observer.unobserve(entry.target);
+            });
+          },
+          { threshold: 0.08, rootMargin: "0px 0px -40px 0px" },
+        );
+        items.forEach((item) => observer.observe(item));
+      }
+    </script>
+  </body>
+</html>

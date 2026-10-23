@@ -1,0 +1,257 @@
+---
+import Button from "./Button.astro";
+import Icon from "./Icon.astro";
+
+interface Props {
+  ctaLabel?: string;
+  note?: string;
+}
+
+const {
+  ctaLabel = "Получить программу",
+  note = "Прототип: данные не отправляются. В финале — GetCourse + email/Telegram.",
+} = Astro.props;
+---
+
+<form class="lead-form" id="lead-form" novalidate>
+  <div class="lead-form__fields" data-fields>
+    <div class="lead-form__row">
+      <label class="field">
+        <span class="field__label">Имя</span>
+        <input type="text" name="name" autocomplete="name" placeholder="Как к вам обращаться" required />
+      </label>
+      <label class="field">
+        <span class="field__label">Email</span>
+        <input type="email" name="email" autocomplete="email" placeholder="you@company.ru" required />
+      </label>
+    </div>
+    <div class="lead-form__row">
+      <label class="field">
+        <span class="field__label">Telegram</span>
+        <input type="text" name="telegram" autocomplete="off" placeholder="@username" />
+      </label>
+      <label class="field">
+        <span class="field__label">Уровень</span>
+        <select name="level">
+          <option value="java">Java/Spring-разработчик</option>
+          <option value="architect">Архитектор / техлид</option>
+          <option value="team">Команда</option>
+          <option value="other">Другое</option>
+        </select>
+      </label>
+    </div>
+    <label class="field field--honeypot" aria-hidden="true">
+      <span>Не заполняйте</span>
+      <input type="text" name="company_site" tabindex="-1" autocomplete="off" />
+    </label>
+    <label class="consent">
+      <input type="checkbox" name="consent" required />
+      <span>Согласен с <a href="/legal/privacy/">политикой ПДн</a> и обработкой данных для ответа на заявку.</span>
+    </label>
+    <Button type="submit" variant="primary" size="lg" full icon>{ctaLabel}</Button>
+    <p class="lead-form__note">{note}</p>
+  </div>
+  <div class="lead-form__success" data-success tabindex="-1" aria-live="polite" hidden>
+    <span class="lead-form__success-icon"><Icon name="check" size={24} /></span>
+    <h3>Заявка принята</h3>
+    <p>Это прототип: здесь появится письмо с программой и ссылкой на Telegram-бота.</p>
+    <button class="lead-form__reset" type="button" data-reset>Отправить ещё одну</button>
+  </div>
+</form>
+
+<style>
+  .lead-form {
+    padding: 28px;
+    border: 1px solid var(--text);
+    border-radius: var(--radius);
+    background: var(--surface);
+    box-shadow: 7px 7px 0 var(--border);
+  }
+
+  .lead-form__fields {
+    display: grid;
+    gap: 16px;
+  }
+
+  .lead-form__row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+  }
+
+  .field {
+    display: grid;
+    gap: 7px;
+  }
+
+  .field__label {
+    color: var(--muted);
+    font-family: var(--mono);
+    font-size: 10px;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+  }
+
+  .field input,
+  .field select {
+    width: 100%;
+    min-height: 48px;
+    padding: 0 13px;
+    border: 1px solid var(--border);
+    border-radius: var(--radius-sm);
+    background: var(--surface-2);
+    color: var(--text);
+    font-size: 14px;
+    outline: none;
+    transition:
+      border-color 160ms ease,
+      background-color 160ms ease;
+  }
+
+  .field input::placeholder {
+    color: var(--muted);
+  }
+
+  .field input:focus,
+  .field select:focus {
+    border-color: var(--accent);
+    background: var(--bg);
+  }
+
+  .field--honeypot {
+    position: absolute;
+    left: -9999px;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+  }
+
+  .consent {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    color: var(--muted);
+    font-size: 12px;
+    line-height: 1.45;
+  }
+
+  .consent input {
+    flex: 0 0 auto;
+    width: 16px;
+    height: 16px;
+    margin-top: 2px;
+    accent-color: var(--accent);
+  }
+
+  .consent a {
+    color: var(--text);
+    text-decoration: underline;
+    text-underline-offset: 3px;
+  }
+
+  .lead-form__note {
+    color: var(--muted);
+    font-family: var(--mono);
+    font-size: 10px;
+    line-height: 1.45;
+  }
+
+  .lead-form__success {
+    display: grid;
+    place-items: center;
+    min-height: 320px;
+    text-align: center;
+  }
+
+  .lead-form__success-icon {
+    display: grid;
+    place-items: center;
+    width: 56px;
+    height: 56px;
+    border: 1px solid var(--accent);
+    border-radius: var(--radius-sm);
+    background: var(--accent-soft);
+    color: var(--accent-ink);
+  }
+
+  .lead-form__success h3 {
+    margin-top: 18px;
+    font-size: 24px;
+  }
+
+  .lead-form__success p {
+    max-width: 320px;
+    margin-top: 8px;
+    color: var(--muted);
+    font-size: 14px;
+  }
+
+  .lead-form__reset {
+    margin-top: 18px;
+    padding: 0;
+    border: 0;
+    background: none;
+    color: var(--accent-ink);
+    font-family: var(--mono);
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+  }
+
+  @media (max-width: 767px) {
+    .lead-form {
+      padding: 20px;
+    }
+
+    .lead-form__row {
+      grid-template-columns: 1fr;
+    }
+
+    .field input,
+    .field select {
+      font-size: 16px;
+    }
+  }
+</style>
+
+<script>
+  const form = document.querySelector<HTMLFormElement>("#lead-form");
+  if (form) {
+    const fields = form.querySelector<HTMLElement>("[data-fields]");
+    const success = form.querySelector<HTMLElement>("[data-success]");
+    const reset = form.querySelector<HTMLButtonElement>("[data-reset]");
+    const submit = form.querySelector<HTMLButtonElement>('button[type="submit"]');
+    const submitLabel = submit?.textContent?.trim() || "Получить программу";
+
+    form.addEventListener("submit", (event) => {
+      event.preventDefault();
+      if (!form.reportValidity()) return;
+
+      if (submit) {
+        submit.disabled = true;
+        submit.textContent = "Отправляем...";
+      }
+
+      window.setTimeout(() => {
+        if (fields && success) {
+          fields.hidden = true;
+          success.hidden = false;
+          success.focus?.();
+        }
+      }, 450);
+    });
+
+    reset?.addEventListener("click", () => {
+      form.reset();
+      if (fields && success) {
+        fields.hidden = false;
+        success.hidden = true;
+      }
+      if (submit) {
+        submit.disabled = false;
+        submit.textContent = submitLabel;
+      }
+    });
+  }
+</script>

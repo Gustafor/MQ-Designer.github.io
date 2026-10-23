@@ -1,0 +1,80 @@
+---
+import Icon from "./Icon.astro";
+import type { IconName } from "../data/course";
+
+interface Props {
+  icon: IconName;
+  label: string;
+  value: string;
+}
+
+const { icon, label, value } = Astro.props;
+---
+
+<div class="feature">
+  <span class="feature__icon"><Icon name={icon} size={18} /></span>
+  <span class="feature__label">{label}</span>
+  <strong class="feature__value">{value}</strong>
+</div>
+
+<style>
+  .feature {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    gap: 4px 11px;
+    min-height: 102px;
+    padding: 14px 16px;
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    background: var(--surface);
+    transition:
+      border-color 180ms ease,
+      background-color 180ms ease;
+  }
+
+  .feature:hover {
+    border-color: var(--text);
+    background: var(--surface-2);
+  }
+
+  .feature__icon {
+    display: grid;
+    grid-row: span 2;
+    place-items: center;
+    width: 32px;
+    height: 32px;
+    border: 1px solid rgba(255, 85, 51, 0.28);
+    border-radius: var(--radius-sm);
+    background: var(--accent-soft);
+    color: var(--accent-ink);
+  }
+
+  .feature__label {
+    align-self: end;
+    color: var(--muted);
+    font-family: var(--mono);
+    font-size: 9px;
+    letter-spacing: 0.07em;
+    line-height: 1.2;
+    text-transform: uppercase;
+  }
+
+  .feature__value {
+    align-self: start;
+    color: var(--text);
+    font-size: 14px;
+    font-weight: 600;
+    line-height: 1.25;
+  }
+
+  @media (max-width: 767px) {
+    .feature {
+      min-height: 92px;
+      padding: 12px;
+    }
+
+    .feature__value {
+      font-size: 13px;
+    }
+  }
+</style>

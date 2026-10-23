@@ -1,0 +1,142 @@
+---
+import Badge from "./Badge.astro";
+import Icon from "./Icon.astro";
+import SectionHeader from "./SectionHeader.astro";
+import { reviews } from "../data/course";
+---
+
+<section class="section reviews" id="reviews">
+  <div class="container">
+    <SectionHeader
+      kicker="Обратная связь"
+      title="Что говорят участники пилота"
+      lead="Это не отзывы с витрины. Мы собрали их после первых прогонов и оставили без имён и компаний — до старта потока."
+      aside="После второго потока добавим имена, роли и ссылки на проекты. С разрешения участников."
+    />
+
+    <div class="reviews__grid">
+      {reviews.map((review, index) => (
+        <article class="reviews__card" data-reveal style={`transition-delay: ${index * 70}ms`}>
+          <div class="reviews__top">
+            <span class="reviews__quote-mark" aria-hidden="true">“</span>
+            <Badge variant="muted">{review.badge}</Badge>
+          </div>
+          <p class="reviews__text">{review.text}</p>
+          <div class="reviews__author">
+            <span class="reviews__avatar"><Icon name="user" size={18} /></span>
+            <span>
+              <strong>{review.name}</strong>
+              <small>{review.role}</small>
+            </span>
+          </div>
+        </article>
+      ))}
+    </div>
+
+    <div class="reviews__note">
+      <Icon name="alert" size={15} />
+      <span>Имена и компании появятся после пилота. Мы не публикуем отзывы без письменного согласия.</span>
+    </div>
+  </div>
+</section>
+
+<style>
+  .reviews__grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 14px;
+  }
+
+  .reviews__card {
+    display: flex;
+    flex-direction: column;
+    min-height: 280px;
+    padding: 22px;
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    background: var(--surface);
+  }
+
+  .reviews__top {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 12px;
+  }
+
+  .reviews__quote-mark {
+    height: 34px;
+    color: var(--accent-ink);
+    font-family: Georgia, serif;
+    font-size: 58px;
+    line-height: 0.8;
+  }
+
+  .reviews__text {
+    margin-top: 16px;
+    color: var(--text);
+    font-size: clamp(17px, 1.6vw, 20px);
+    line-height: 1.45;
+  }
+
+  .reviews__author {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-top: auto;
+    padding-top: 24px;
+    border-top: 1px solid var(--border);
+  }
+
+  .reviews__avatar {
+    display: grid;
+    place-items: center;
+    flex: 0 0 auto;
+    width: 36px;
+    height: 36px;
+    border: 1px solid var(--border);
+    border-radius: var(--radius-sm);
+    background: var(--bg-deep);
+    color: var(--muted);
+  }
+
+  .reviews__author span:last-child {
+    display: grid;
+    gap: 2px;
+  }
+
+  .reviews__author strong {
+    font-size: 12px;
+    font-weight: 600;
+  }
+
+  .reviews__author small {
+    color: var(--muted);
+    font-size: 11px;
+    line-height: 1.3;
+  }
+
+  .reviews__note {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-top: 18px;
+    color: var(--muted);
+    font-size: 11px;
+  }
+
+  .reviews__note svg {
+    flex: 0 0 auto;
+    color: var(--accent-ink);
+  }
+
+  @media (max-width: 1023px) {
+    .reviews__grid {
+      grid-template-columns: 1fr;
+    }
+
+    .reviews__card {
+      min-height: 0;
+    }
+  }
+</style>

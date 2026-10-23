@@ -1,0 +1,160 @@
+---
+import Badge from "./Badge.astro";
+import Button from "./Button.astro";
+import Icon from "./Icon.astro";
+
+interface Plan {
+  name: string;
+  subtitle: string;
+  price: string;
+  note: string;
+  features: string[];
+  cta: string;
+  featured: boolean;
+}
+
+interface Props {
+  plan: Plan;
+}
+
+const { plan } = Astro.props;
+---
+
+<article class:list={["plan", plan.featured && "plan--featured"]}>
+  {plan.featured && <Badge variant="yellow" class="plan__badge">Оптимальный</Badge>}
+  <div class="plan__head">
+    <span class="plan__subtitle">{plan.subtitle}</span>
+    <h3 class="plan__name">{plan.name}</h3>
+    <strong class="plan__price">{plan.price}</strong>
+    <span class="plan__note">{plan.note}</span>
+  </div>
+  <ul class="plan__features">
+    {plan.features.map((feature) => (
+      <li><Icon name="check" size={15} /> <span>{feature}</span></li>
+    ))}
+  </ul>
+  <Button href="#lead" variant={plan.featured ? "dark" : "secondary"} full>
+    {plan.cta}
+  </Button>
+</article>
+
+<style>
+  .plan {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    min-height: 100%;
+    padding: 28px 24px 24px;
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    background: var(--surface);
+  }
+
+  .plan--featured {
+    border-color: var(--terminal);
+    background: var(--terminal);
+    color: var(--terminal-text);
+    box-shadow: 7px 7px 0 var(--border);
+  }
+
+  .plan--featured .plan__subtitle,
+  .plan--featured .plan__note {
+    color: var(--terminal-muted);
+  }
+
+  .plan--featured .plan__price {
+    color: var(--accent);
+  }
+
+  .plan--featured .plan__features {
+    border-top-color: var(--terminal-border);
+    color: var(--terminal-text);
+  }
+
+  .plan--featured .plan__features svg {
+    color: var(--accent);
+  }
+
+  .plan :global(.plan__badge) {
+    position: absolute;
+    top: -13px;
+    right: 18px;
+  }
+
+  .plan__subtitle {
+    display: block;
+    color: var(--muted);
+    font-family: var(--mono);
+    font-size: 10px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+
+  .plan__name {
+    margin-top: 8px;
+    font-size: 26px;
+    font-weight: 700;
+    letter-spacing: -0.03em;
+    line-height: 1.1;
+  }
+
+  .plan__price {
+    display: block;
+    margin-top: 18px;
+    color: var(--accent-ink);
+    font-size: clamp(24px, 2.3vw, 30px);
+    font-weight: 700;
+    letter-spacing: -0.03em;
+    line-height: 1.1;
+  }
+
+  .plan__note {
+    display: block;
+    margin-top: 8px;
+    color: var(--muted);
+    font-size: 13px;
+    line-height: 1.4;
+  }
+
+  .plan__features {
+    display: grid;
+    gap: 10px;
+    margin: 26px 0 30px;
+    padding-top: 22px;
+    border-top: 1px solid var(--border);
+    font-size: 14px;
+    line-height: 1.4;
+  }
+
+  .plan__features li {
+    display: flex;
+    align-items: flex-start;
+    gap: 9px;
+  }
+
+  .plan__features svg {
+    flex: 0 0 auto;
+    margin-top: 2px;
+    color: var(--accent-ink);
+  }
+
+  .plan :global(.btn) {
+    margin-top: auto;
+  }
+
+  @media (max-width: 767px) {
+    .plan {
+      padding: 20px 18px 18px;
+    }
+
+    .plan__price {
+      margin-top: 12px;
+    }
+
+    .plan__features {
+      gap: 8px;
+      margin: 20px 0 24px;
+      padding-top: 16px;
+    }
+  }
+</style>

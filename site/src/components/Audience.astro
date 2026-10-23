@@ -1,0 +1,77 @@
+---
+import IconCard from "./IconCard.astro";
+import SectionHeader from "./SectionHeader.astro";
+import { audiences } from "../data/course";
+---
+
+<section class="section" id="audience">
+  <div class="container">
+    <SectionHeader
+      kicker="Кому подойдёт"
+      title="Если очереди уже есть, но уверенности — нет"
+      lead="Курс рассчитан на тех, кто работает с сервисами и хочет отвечать за топологию, а не только за свой микросервис."
+      aside="Нужен базовый опыт Java/Spring для модуля интеграции. Остальное собирается с нуля в среде."
+    />
+
+    <div class="grid-3">
+      {audiences.map((audience, index) => (
+        <div data-reveal style={`transition-delay: ${index * 70}ms`}>
+          <IconCard {...audience} />
+        </div>
+      ))}
+    </div>
+
+    <div class="audience__strip" data-reveal>
+      <span class="mono">Не подойдёт</span>
+      <p>Тем, кто ищет только видео без практики и гарантию трудоустройства. Мы не обещаем оффер — мы даём рабочую топологию и язык для разговора о ней.</p>
+      <a href="#program">Проверить программу <span aria-hidden="true">→</span></a>
+    </div>
+  </div>
+</section>
+
+<style>
+  .audience__strip {
+    display: grid;
+    grid-template-columns: 120px 1fr auto;
+    gap: 20px;
+    align-items: center;
+    margin-top: 28px;
+    padding: 18px 20px;
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    background: var(--bg-deep);
+  }
+
+  .audience__strip > span {
+    color: var(--accent-ink);
+    font-size: 10px;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+  }
+
+  .audience__strip p {
+    color: var(--muted);
+    font-size: 13px;
+    line-height: 1.5;
+  }
+
+  .audience__strip a {
+    color: var(--text);
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.05em;
+    white-space: nowrap;
+    text-transform: uppercase;
+  }
+
+  .audience__strip a:hover {
+    color: var(--accent-ink);
+  }
+
+  @media (max-width: 767px) {
+    .audience__strip {
+      grid-template-columns: 1fr;
+      gap: 8px;
+    }
+  }
+</style>
