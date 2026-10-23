@@ -1,7 +1,0 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="0 0 64 64" role="img" aria-label="Gustafor">
-  <rect width="64" height="64" fill="#f3f0ec"/>
-  <rect x="3.5" y="3.5" width="57" height="57" fill="#171614" stroke="#ff5533" stroke-width="1.5"/>
-  <text x="32" y="43" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="34" font-weight="700" letter-spacing="-2" fill="#ff5533">G</text>
-  <rect x="10" y="10" width="5" height="5" fill="#ff5533"/>
-  <rect x="49" y="49" width="5" height="5" fill="#ff5533"/>
-</svg>
